@@ -1,0 +1,6 @@
+@RetinaApi_HostAddress = http://localhost:5210
+
+GET {{RetinaApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,57 @@
+/* الألوان مأخوذة من تصميم RetinaAI (ملف الـ PDF) */
+:root {
+    --bg: #0A0E10;
+    --surface: #141B1E;
+    --border: #232D31;
+    --ink: #EDF3F1;
+    --ink-dim: #96A6A2;
+    --amber: #E3A24B;
+    --teal: #4FB8AE;
+    --success: #3FB88F;
+    --danger: #DB4F42;
+    --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 16px;
+}
+
+h1 { font-size: 40px; margin: 0 0 8px; }
+
+.subtitle { color: var(--ink-dim); margin: 0 0 32px; }
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+}
+
+.card h2 { margin-top: 0; font-size: 18px; }
+
+button {
+    background: var(--amber);
+    color: #1A1206;
+    border: none;
+    border-radius: 11px;
+    padding: 10px 24px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover { background: #EFB05F; }
+
+.result { margin-bottom: 0; font-family: Consolas, monospace; }
+.result.ok { color: var(--success); }
+.result.error { color: var(--danger); }
