@@ -1,34 +1,74 @@
 # RetinaAI — Diabetic Retinopathy Early Detection
 
-Graduation project: a phone with a simple lens (IoT) captures a retina image, an AI model grades diabetic retinopathy (5 stages) and highlights affected areas with a Grad-CAM heatmap, and results are delivered to a mobile app and a hospital web dashboard.
+> Graduation project · **in progress**
 
-## Project structure
+A low-cost screening system for diabetic retinopathy: a phone with a simple clip-on lens captures a retina image, an AI model grades it on the 5-stage scale and highlights affected areas with a Grad-CAM heatmap, and the result reaches the patient's mobile app and the doctor's hospital dashboard.
+
+This repository holds the **back end** (ASP.NET Core Web API) that connects the mobile app, the web dashboard and the AI model.
+
+## How it works
 
 ```
-Graduation-Project/
-├── backend/RetinaApi/   ASP.NET Core Web API (C#) — server, database, connects to AI
-├── frontend/            Hospital dashboard (HTML / CSS / JavaScript)
-└── docs/                Plan, API contract, diagrams
+ Phone + lens ──► Mobile app ──┐
+                               ├──► RetinaAI API (ASP.NET Core) ──► AI model (Python / FastAPI)
+ Hospital dashboard (web) ─────┘            │
+                                            ▼
+                                   SQL Server (EF Core)
 ```
 
-## Tech stack (web)
+## Tech stack
 
-| Part      | Technology                                  |
-|-----------|---------------------------------------------|
-| Frontend  | HTML, CSS, JavaScript, Bootstrap, Chart.js  |
-| Backend   | ASP.NET Core Web API (.NET 10, C#)          |
-| Database  | SQL Server / SQLite + Entity Framework Core |
-| Auth      | JWT                                         |
-| AI model  | Python (FastAPI) — owned by the AI team     |
+| Part | Technology |
+|---|---|
+| API | ASP.NET Core Web API (.NET 10, C#), controllers |
+| Database | SQL Server Express, Entity Framework Core 10 (code-first migrations) |
+| API docs | Swagger / OpenAPI |
+| AI model | Python (FastAPI), built by the AI team |
+| Mobile app | Flutter, built by the mobile team |
+| Web dashboard | HTML, CSS, JavaScript, Bootstrap, Chart.js |
 
-## How to run
+## Data model
 
-**Backend**
-```
-cd backend/RetinaApi
+| Table | Holds |
+|---|---|
+| `Doctors` | Name, email, specialty, password hash |
+| `Patients` | Age, gender, diabetes type and duration, HbA1c, assigned doctor |
+| `Scans` | Eye (left / right), image and heatmap paths, AI grade and confidence, review status, doctor's note |
+
+## API (so far)
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/status` | Health check |
+| GET | `/api/patients` | List patients |
+| GET | `/api/patients/{id}` | One patient |
+| POST | `/api/patients` | Add a patient |
+
+## Roadmap
+
+- [x] Web API project and health-check endpoint
+- [x] Database design (doctors, patients, scans) with EF Core and SQL Server
+- [ ] Patients: full CRUD (update and delete next)
+- [ ] Retina image upload and scan records
+- [ ] Connect to the AI model (mock first, then the real one)
+- [ ] Login for doctors and patients with JWT and roles
+- [ ] Connect the web dashboard and mobile app
+- [ ] End-to-end testing and deployment
+
+## Run locally
+
+Requirements: [.NET 10 SDK](https://dotnet.microsoft.com/download) and SQL Server Express.
+
+```bash
+cd backend
+dotnet ef database update
 dotnet run --launch-profile http
 ```
-Swagger opens at http://localhost:5210/swagger
 
-**Frontend**
-Open `frontend/index.html` in VS Code → right click → **Open with Live Server**.
+Swagger: **http://localhost:5131/swagger**
+
+The connection string is in `backend/appsettings.json` (`Server=.\SQLEXPRESS`, Windows authentication). Change it if your SQL Server instance has a different name.
+
+## My role
+
+**Amany Khaled** — team lead and back-end developer: system and database design, the Web API, and coordinating integration between the AI, mobile and web teams.
