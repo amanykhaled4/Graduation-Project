@@ -12,5 +12,5 @@ public class Patient
     public int? DiabetesYears { get; set; }
     public double? HbA1c { get; set; }
     public int? DoctorId { get; set; }
-public Doctor? Doctor { get; set; }
+    public Doctor? Doctor { get; set; }
 }
